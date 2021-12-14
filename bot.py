@@ -44,6 +44,8 @@ def constant_update(message):
         timeout = Conf._get("TIMEOUT")
         for i in range(days):
             line = helper.compile_line(message)
+            message_meta = helper.get_message_meta_struct(message)
+            logger.info(f"SendPeriodicUpdateToId={message_meta['id']}")
             Bot.reply_to(message, line)
             sleep(timeout)
     except Exception as e:
