@@ -7,7 +7,6 @@ import telebot
 Bot = telebot.TeleBot(Conf._get("API_KEY"))
 logger = logging.getLogger("Bot")
 helper = Help()
-stat = Statistic()
 
 @Bot.message_handler(commands=["start"])
 def bot_start(message):
@@ -16,8 +15,6 @@ def bot_start(message):
         __log = f"HadlingRequest: id={message_meta['id']}, user={message_meta['user']}"
         logger.info(__log)
         Bot.reply_to(message, GREET_MSG_RU)
-        stat_struct = {"user": message_meta['user'], "msg": message_meta['msg']}
-        stat.writeLog(f"{message_meta['id']}", stat_struct)
     except Exception as e:
         logger.error(BotException(e))
         raise BotException(e)
@@ -30,8 +27,6 @@ def motivate_or_stop(message):
         msg = message_meta['msg']
         __log = f"HadlingRequest: id={message_meta['id']}, user={message_meta['user']}"
         logger.info(__log)
-        stat_struct = {"user": message_meta['user'], "msg": message_meta['msg']}
-        stat.writeLog(f"{message_meta['id']}", stat_struct)
         if "motivation" in msg and len(msg) != len("/motivation"):
             constant_update(message)
         elif "stop" in msg:

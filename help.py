@@ -91,24 +91,3 @@ class Conf(object):
         except Exception as e:
             logger.error(f"Exception {e}")
             raise ConfigurationError(e)
-
-class Statistic():
-
-    def __init__(self) -> None:
-        pass
-
-    def writeLog(self, key, value):
-        logger = logging.getLogger(__class__.__name__)
-        _statFile = "statistic.json"
-        try:
-            with open(_statFile) as f:
-                json_decoded = json.load(f)
-            
-            json_decoded[key] = value
-
-            with open(_statFile, 'w') as f:
-                json.dump(json_decoded,f, indent=4)
-
-        except Exception as e:
-            logger.error(f"Exception {e}", exc_info=1)
-            raise BotException(e)
