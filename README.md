@@ -4,7 +4,7 @@ Simply visit https://t.me/NoLazy2022Bot or search for @NoLazy2022Bot directly in
 
 Examples:
 
-![start](https://user-images.githubusercontent.com/49090543/146058546-79a5917d-d92b-412f-9881-006eb535b0ce.png)
+![start](https://user-images.githubusercontent.com/49090543/146061598-eeb99631-00d3-45dd-b7dc-6a116797e240.png)
 
 ![motivation](https://user-images.githubusercontent.com/49090543/146058554-e54c3b4d-0a7f-40d9-b428-02f80e9ebf18.png)
 
