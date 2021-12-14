@@ -12,7 +12,7 @@ helper = Help()
 def bot_start(message):
     try:
         message_meta = helper.get_message_meta_struct(message)
-        __log = f"HadlingRequest: id={message_meta['id']}, user={message_meta['user']}"
+        __log = f"HadlingRequest: UserId={message_meta['id']}, UserName={message_meta['user']}"
         logger.info(__log)
         Bot.reply_to(message, GREET_MSG_RU)
     except Exception as e:
@@ -25,7 +25,7 @@ def motivate_or_stop(message):
     try:
         message_meta = helper.get_message_meta_struct(message)
         msg = message_meta['msg']
-        __log = f"HadlingRequest: id={message_meta['id']}, user={message_meta['user']}"
+        __log = f"HadlingRequest: UserId={message_meta['id']}, UserName={message_meta['user']}"
         logger.info(__log)
         if "motivation" in msg and len(msg) != len("/motivation"):
             constant_update(message)
@@ -45,7 +45,7 @@ def constant_update(message):
         for i in range(days):
             line = helper.compile_line(message)
             message_meta = helper.get_message_meta_struct(message)
-            logger.info(f"SendPeriodicUpdateToId={message_meta['id']}")
+            logger.info(f"SendPeriodicUpdateToUserId={message_meta['id']}")
             Bot.reply_to(message, line)
             sleep(timeout)
     except Exception as e:
