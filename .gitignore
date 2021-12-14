@@ -2,4 +2,4 @@ conf.json
 venv/
 __pycache__
 app.log
-statistics.json
+statistic.json
