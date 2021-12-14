@@ -9,3 +9,5 @@ if __name__ == "__main__":
         Bot.polling()
     except Exception as e:
         logging.error(RuntimeAbortionException(e))
+    finally:
+        logging.info("Application end")
