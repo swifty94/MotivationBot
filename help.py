@@ -1,15 +1,18 @@
-from base import *
+from base import BotException, ConfigurationError, logging, MOTIVATION_START_RU
 from threading import Thread
-import random
+import random, json
 
 
-def background(f):
-    '''
-    a threading decorator
-    use @background above the function you want to run in the background
-    '''
+def backgroundThread(f):
+    """
+    Threading decorator
+    @backgroundThread above will run it in the background
+    """
     def backgrnd_func(*a, **kw):
-        Thread(target=f, args=a, kwargs=kw).start()
+        log = logging.getLogger(__name__)
+        t = Thread(target=f, args=a, kwargs=kw)
+        t.start()        
+        log.info(f"SpawnedThread: {t.native_id} AppliedFor: {f}")
     return backgrnd_func
 
 class Help:
@@ -66,28 +69,35 @@ class Help:
 
 class Conf(object):
     """
-    JSON configuration object with single Conf._get() method\n
-    Details are in method annotation
+    JSON configuration object\n
+    Available properties:
+    - API_KEY - Telegram bot API key
+    - DAYS_SECONDS - Amount of time bot will be alive
+    - TIMEOUT - Timeout between each reminder from bot
     """
-          
-    def _get(key) -> str:
+    def __init__(self) -> object:
+        super().__init__()
+        self.logger = logging.getLogger(__class__.__name__)
+        self.__confFile = "conf.json"
+        self.API_KEY = self._get("API_KEY")
+        self.DAYS_SECONDS = self._get("DAYS_SECONDS")
+        self.TIMEOUT = self._get("TIMEOUT")
+    
+    def _get(self, key) -> str:
         """
         Get JSON value by key
         :param - key:str
         :param - return:str
         """
-        logger = logging.getLogger(__class__.__name__)
-        _confFile = "conf.json"
-        _c = __class__.__name__
         try:
-            with open(_confFile) as f:
+            with open(self.__confFile) as f:
                 data = json.load(f)
             val = data[key]            
             return val
         except FileNotFoundError as noF:
             _l = f"CriticalException {noF} -> AppExit!"
-            logger.error(_l)
+            self.logger.error(_l)
             raise ConfigurationError(_l)
         except Exception as e:
-            logger.error(f"Exception {e}")
-            raise ConfigurationError(e)
+            self.logger.error(BotException(e))
+            raise BotException(e)

@@ -5,9 +5,7 @@ import json
 import logging.config
 from os import path
 
-
-_lconf = path.join(path.dirname(path.abspath(__file__)), 'logging.ini')
-logging.config.fileConfig(_lconf)
+logging.config.fileConfig(path.join(path.dirname(path.abspath(__file__)), 'logging.ini'))
 
 class BotException(Exception):
     """Base applicaton Exception"""
@@ -16,6 +14,7 @@ class BotException(Exception):
         super().__init__(self.message)
 
     def __str__(self):
+        logging.error(f"{self.message}", exc_info=1)
         return f'-> {self.message}'
 
 class ConfigurationError(BotException):
@@ -29,14 +28,13 @@ class RuntimeAbortionException(BotException):
         super().__init__(message=message)
     
     def __str__(self):
+        logging.critical(f"{self.message}", exc_info=1)
         print(f'Critical -> {self.message}')
         exit(1)
 
-#
 # 
 #   STATIC CONSTANTS
 # 
-#
 
 GREET_MSG_RU = """
 Добро пожаловать в NoLazy Bot. \n
