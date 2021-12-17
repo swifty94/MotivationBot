@@ -22,6 +22,14 @@ def constant_update(message):
         logger.error(BotException(e))
         raise BotException(e)
 
+@Bot.message_handler(regexp="^(?!.*(start|stop|motivation))")
+def unknown_command(message):
+    try:
+        Bot.reply_to(message, "Неправильная комманда.\nВозможные варианты: /start, /stop, /motivation $ВашаЦель")
+    except Exception as e:
+        logger.error(BotException(e))
+        raise BotException(e)
+
 @Bot.message_handler(commands=["start", "motivation", "stop"])
 def bot_logic(message):
     try:
@@ -41,7 +49,7 @@ def bot_logic(message):
         elif "stop" in msg:
             Bot.reply_to(message, FAREWELL_MSG_RU)
         else:
-            Bot.reply_to(message, "Неправильная комманда.\nВозможные варианты: /start, /stop, /motivation $ВашаЦель")
+            unknown_command()
     except Exception as e:
         logger.error(BotException(e))
         raise BotException(e)

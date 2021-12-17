@@ -21,16 +21,14 @@ class ConfigurationError(BotException):
     """JSON configuration error"""
     def __init__(self, message="JSON configuration error"):
         super().__init__(message=message)
+        super().__str__()
 
 class RuntimeAbortionException(BotException):
     """RuntimeException"""
     def __init__(self, message="RuntimeException occured!"):
         super().__init__(message=message)
-    
-    def __str__(self):
-        logging.critical(f"{self.message}", exc_info=1)
-        print(f'Critical -> {self.message}')
-        exit(1)
+        super().__str__()
+
 
 # 
 #   STATIC CONSTANTS
